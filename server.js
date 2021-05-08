@@ -15,10 +15,11 @@ const wss = new Server({ server });
 wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
-  ws.on('message', () => {wss.clients.forEach(function each(client){
-      if (client.readyState === Server.OPEN) {
-        client.send(data);
-      }
+  ws.on('message', (data) => {
+	  wss.clients.forEach(function each(client){
+		  if (client.readyState === Server.OPEN) {
+			client.send(data);
+		  }
 	  });
 	console.log(data);
 	});
