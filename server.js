@@ -12,21 +12,13 @@ const server = express()
 
 const wss = new Server({ server });
 
-wss.on('open', function open() {
-  console.log('connected');
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('close', () => console.log('Client disconnected'));
 });
 
-wss.on('close', function close() {
-  console.log('disconnected');
-});
-
-wss.on('connection', function connection(ws) {
-  wss.on('message', function incoming(data) {
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === server.OPEN) {
-        client.send(data);
-      }
-    });
-	console.log(data);
+setInterval(() => {
+  wss.clients.forEach((client) => {
+    client.send(new Date().toTimeString());
   });
-});
+}, 1000);
