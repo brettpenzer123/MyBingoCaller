@@ -20,7 +20,7 @@ wss.on('close', function close() {
   console.log('disconnected');
 });
 
-server.listen(port, function() {
+server.listen(PORT, function() {
   console.log(`Server is listening on ${port}!`)
 })
 
