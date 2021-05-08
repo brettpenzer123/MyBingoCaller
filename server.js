@@ -23,7 +23,7 @@ wss.on('close', function close() {
 wss.on('connection', function connection(ws) {
   wss.on('message', function incoming(data) {
     wss.clients.forEach(function each(client) {
-      if (client.readyState === Server.OPEN) {
+      if (client.readyState === server.OPEN) {
         client.send(data);
       }
     });
