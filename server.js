@@ -3,7 +3,7 @@
 const express = require('express');
 const { Server } = require('ws');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6969;
 const INDEX = '/index.html';
 
 const server = express()
@@ -12,13 +12,25 @@ const server = express()
 
 const wss = new Server({ server });
 
-wss.on('connection', (ws) => {
-  console.log('Client connected');
-  ws.on('close', () => console.log('Client disconnected'));
+wss.on('open', function open() {
+  console.log('connected');
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
+wss.on('close', function close() {
+  console.log('disconnected');
+});
+
+server.listen(port, function() {
+  console.log(`Server is listening on ${port}!`)
+})
+
+wss.on('connection', function connection(ws) {
+  wss.on('message', function incoming(data) {
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === Server.OPEN) {
+        client.send(data);
+      }
+    });
+	console.log(data);
   });
-}, 1000);
+});
