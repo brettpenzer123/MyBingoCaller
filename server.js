@@ -20,10 +20,6 @@ wss.on('close', function close() {
   console.log('disconnected');
 });
 
-server.listen(PORT, function() {
-  console.log(`Server is listening on ${port}!`)
-})
-
 wss.on('connection', function connection(ws) {
   wss.on('message', function incoming(data) {
     wss.clients.forEach(function each(client) {
